@@ -3,6 +3,7 @@ import {
   combineLatest,
   map,
   Observable,
+  reduce,
   takeUntil,
   timer,
   VirtualTimeScheduler,
@@ -51,12 +52,11 @@ const applyOperatorToGraphs = <I extends readonly unknown[], O>(
         [K in keyof I]: Observable<Marble<I[K]>>;
       }
     ]
-  ) => Observable<Omit<Marble<O>, 'time'>>
+  ) => Observable<Omit<Marble<O>, 'time'>>,
+  scheduler = new VirtualTimeScheduler()
 ) =>
   new Observable<Marble<O> & { scheduler: VirtualTimeScheduler }>(
     (observer) => {
-      const scheduler = new VirtualTimeScheduler();
-
       operator(fromMarbleGraphs(graphs, scheduler) as any) // hm
         .pipe(
           map((marble) => ({ ...marble, time: scheduler.now(), scheduler }))
@@ -66,6 +66,18 @@ const applyOperatorToGraphs = <I extends readonly unknown[], O>(
       scheduler.flush();
       observer.complete();
     }
+  ).pipe(
+    reduce(
+      (graph, marble) => {
+        graph.marbles.push(marble);
+        return graph;
+      },
+      { marbles: [] } as MarbleGraph<O>
+    ),
+    map((graph) => {
+      graph.end = scheduler.now();
+      return graph;
+    })
   );
 
 @Component({
@@ -79,6 +91,7 @@ export class AppComponent {
     applyOperatorToGraphs(
       [
         {
+          end: 50,
           marbles: [
             { time: 0, value: 1 },
             { time: 5, value: 2 },
@@ -87,6 +100,7 @@ export class AppComponent {
           ],
         },
         {
+          end: 102,
           marbles: [
             { time: 0, value: 'a' },
             { time: 11, value: 'b' },
@@ -102,12 +116,13 @@ export class AppComponent {
           }))
         )
     ).subscribe({
-      next: (x) => console.log(x.time, x.value),
+      next: (x) => console.log(x),
       complete: () => console.log('done'),
     });
     applyOperatorToGraphs(
       [
         {
+          end: 70,
           marbles: [
             { time: 0, value: 1 },
             { time: 5, value: 2 },
@@ -123,7 +138,7 @@ export class AppComponent {
           }))
         )
     ).subscribe({
-      next: (x) => console.log(x.time, x.value),
+      next: (x) => console.log(x),
       complete: () => console.log('done'),
     });
   }
