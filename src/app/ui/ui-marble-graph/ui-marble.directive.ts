@@ -1,5 +1,5 @@
 import { Directive, ElementRef, inject, Input } from '@angular/core';
-import { Marble } from 'src/app/types/marble';
+import { Marble } from 'src/app/model/marble';
 
 @Directive({
   selector: '[appUiMarble]',

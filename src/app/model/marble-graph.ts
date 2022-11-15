@@ -39,7 +39,7 @@ export const fromMarbleGraphs = <T extends readonly unknown[]>(
   scheduler: VirtualTimeScheduler
 ) => graphs.map((graph) => fromMarbleGraph(graph, scheduler));
 
-export const applyOperatorToGraphs = <I extends readonly unknown[], O>(
+export const reduceGraphs = <I extends readonly unknown[], O>(
   graphs: [...MarbleGraphInputTuple<I>],
   operator: (
     marbles$: [

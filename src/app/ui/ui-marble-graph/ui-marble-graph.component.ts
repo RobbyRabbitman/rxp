@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSliderModule } from '@angular/material/slider';
-import { MarbleGraph } from 'src/app/types/marble-graph';
+import { MarbleGraph } from 'src/app/model/marble-graph';
 import { UiMarbleDirective } from './ui-marble.directive';
 
 @Component({

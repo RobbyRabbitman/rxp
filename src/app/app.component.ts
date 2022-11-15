@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { combineLatest, map } from 'rxjs';
-import { applyOperatorToGraphs } from './types/marble-graph';
+import { reduceGraphs } from './model/marble-graph';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ import { applyOperatorToGraphs } from './types/marble-graph';
 export class AppComponent {
   title = 'rxp';
   constructor() {
-    applyOperatorToGraphs(
+    reduceGraphs(
       [
         {
           end: 50,
@@ -41,7 +41,7 @@ export class AppComponent {
       next: (x) => console.log(x),
       complete: () => console.log('done'),
     });
-    applyOperatorToGraphs(
+    reduceGraphs(
       [
         {
           end: 70,
