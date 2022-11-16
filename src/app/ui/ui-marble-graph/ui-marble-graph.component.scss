@@ -9,9 +9,13 @@ app-ui-marble-graph {
       @apply hidden;
     }
     .mat-slider-thumb {
-      @apply flex items-center justify-center h-14 w-14 -right-7 -bottom-7 text-2xl #{!important};
+      @apply flex items-center justify-center h-14 w-14 -right-7 -bottom-7 text-2xl z-20 #{!important};
       background-color: mat.get-color-from-palette($primary) !important;
       color: mat.get-color-from-palette($primary, default-contrast) !important;
     }
+  }
+
+  .mat-icon {
+    transform: scale(2);
   }
 }
