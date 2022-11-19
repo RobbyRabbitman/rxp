@@ -29,6 +29,9 @@ $theme: mat.define-light-theme(
   )
 );
 
+$foreground-palette: map-get($theme, foreground);
+$background-palette: map-get($theme, background);
+
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.

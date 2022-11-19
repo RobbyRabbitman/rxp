@@ -1,10 +1,18 @@
 <div class="relative h-full flex flex-col items-stretch justify-center">
+  <div class="!absolute top-0 right-8 bottom-0 left-8 flex items-center">
+    <mat-slider
+      class="end w-full hide-slider-track"
+      [value]="graph?.end"
+      [min]="min"
+      [max]="max"
+    ></mat-slider>
+  </div>
   <div
     class="!absolute top-0 right-8 bottom-0 left-8 flex items-center"
     *ngFor="let marble of graph?.marbles"
   >
     <mat-slider
-      class="marble w-full"
+      class="marble w-full hide-slider-track"
       [appUiMarble]="marble"
       [value]="marble.time"
       [min]="min"

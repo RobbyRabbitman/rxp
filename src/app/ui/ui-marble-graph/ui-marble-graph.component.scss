@@ -5,9 +5,6 @@ app-ui-marble-graph {
   @apply block h-16 px-6;
 
   .marble {
-    .mat-slider-track-wrapper {
-      @apply hidden;
-    }
     .mat-slider-thumb {
       @apply flex items-center justify-center h-14 w-14 -right-7 -bottom-7 text-2xl z-20 #{!important};
       background-color: mat.get-color-from-palette($primary) !important;
@@ -15,7 +12,31 @@ app-ui-marble-graph {
     }
   }
 
+  .end {
+    .mat-slider-thumb {
+      @apply h-16 w-1 -bottom-8 rounded-none transform-none #{!important};
+      background-color: mat.get-color-from-palette(
+        $foreground-palette,
+        text
+      ) !important;
+    }
+  }
+
+  .hide-slider-track {
+    .mat-slider-track-wrapper {
+      @apply hidden;
+    }
+  }
+
+  .mat-divider {
+    background-color: mat.get-color-from-palette(
+      $foreground-palette,
+      text
+    ) !important;
+  }
+
   .mat-icon {
     transform: scale(2);
+    color: mat.get-color-from-palette($foreground-palette, text) !important;
   }
 }
