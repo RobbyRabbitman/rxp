@@ -29,12 +29,12 @@ import { UiMarbleDirective } from './ui-marble.directive';
 export class UiMarbleGraphComponent {
   @Input()
   public graph?: MarbleGraph<unknown> = {
-    end: 70,
+    end: 75,
     marbles: [
-      { time: 0, value: 1 },
-      { time: 5, value: 2 },
-      { time: 60, value: 3 },
-      { time: 100, value: 4 },
+      { time: 0, value: 1, id: 1 },
+      { time: 5, value: 2, id: 2 },
+      { time: 60, value: 3, id: 3 },
+      { time: 70, value: 4, id: 4 },
     ],
   };
 
@@ -43,4 +43,25 @@ export class UiMarbleGraphComponent {
 
   @Input()
   public max = 100;
+
+  public _endChange(end: number) {
+    if (this.graph != null)
+      this.graph = {
+        ...this.graph,
+        end: end,
+        marbles: this.graph.marbles.map((marble) => ({
+          ...marble,
+          time: Math.min(end, marble.time),
+        })),
+      };
+  }
+
+  public _calcEndAfterMarbleChange(graph: MarbleGraph<unknown>) {
+    const end = Math.max(
+      graph.marbles.sort((a, b) => b.time - a.time).at(0)?.time ?? this.max,
+      graph.end ?? this.max
+    );
+    graph.end = end;
+    return end;
+  }
 }

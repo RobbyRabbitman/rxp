@@ -1,15 +1,20 @@
-<div class="relative h-full flex flex-col items-stretch justify-center">
+<div
+  *ngIf="graph != null"
+  class="relative h-full flex flex-col items-stretch justify-center"
+>
   <div class="!absolute top-0 right-8 bottom-0 left-8 flex items-center">
     <mat-slider
+      #end
       class="end w-full hide-slider-track"
-      [value]="graph?.end"
+      [value]="graph.end"
       [min]="min"
       [max]="max"
+      (input)="_endChange($event.value ?? max)"
     ></mat-slider>
   </div>
   <div
     class="!absolute top-0 right-8 bottom-0 left-8 flex items-center"
-    *ngFor="let marble of graph?.marbles"
+    *ngFor="let marble of graph.marbles"
   >
     <mat-slider
       class="marble w-full hide-slider-track"
@@ -17,6 +22,10 @@
       [value]="marble.time"
       [min]="min"
       [max]="max"
+      (input)="
+        marble.time = $event.value ?? max;
+        end.value = _calcEndAfterMarbleChange(graph)
+      "
     ></mat-slider>
   </div>
   <div class="!absolute top-0 right-0 bottom-0 left-0 flex items-center">
