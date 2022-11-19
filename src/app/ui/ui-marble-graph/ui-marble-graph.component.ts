@@ -2,12 +2,16 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
+  Output,
   ViewEncapsulation,
 } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
+import { map, merge } from 'rxjs';
+import { Marble } from 'src/app/model/marble';
 import { MarbleGraph } from 'src/app/model/marble-graph';
 import { UiMarbleDirective } from './ui-marble.directive';
 
@@ -44,24 +48,49 @@ export class UiMarbleGraphComponent {
   @Input()
   public max = 100;
 
-  public _endChange(end: number) {
-    if (this.graph != null)
+  @Output('endChange')
+  public readonly endChange = new EventEmitter<{
+    source: MarbleGraph<unknown>;
+    value: number;
+  }>();
+
+  @Output('marbleChange')
+  public readonly marbleChange = new EventEmitter<{
+    source: MarbleGraph<unknown>;
+    value: Marble<unknown>;
+  }>();
+
+  @Output('value')
+  public readonly valueChange = merge(this.endChange, this.marbleChange).pipe(
+    map((event) => event.source)
+  );
+
+  public _endChange(event: number) {
+    if (this.graph != null) {
       this.graph = {
         ...this.graph,
-        end: end,
+        end: event,
         marbles: this.graph.marbles.map((marble) => ({
           ...marble,
-          time: Math.min(end, marble.time),
+          time: Math.min(event, marble.time),
         })),
       };
+      this.endChange.next({ source: this.graph, value: event });
+    }
   }
 
-  public _calcEndAfterMarbleChange(graph: MarbleGraph<unknown>) {
-    const end = Math.max(
-      graph.marbles.sort((a, b) => b.time - a.time).at(0)?.time ?? this.max,
-      graph.end ?? this.max
-    );
-    graph.end = end;
-    return end;
+  public _marbleChange(marble: Marble<unknown>, event: number) {
+    if (this.graph) {
+      marble.time = event;
+
+      const end = Math.max(
+        this.graph.marbles.sort((a, b) => b.time - a.time).at(0)?.time ??
+          this.max,
+        this.graph.end ?? this.max
+      );
+      this.graph.end = end;
+
+      this.marbleChange.next({ source: this.graph, value: marble });
+    }
   }
 }

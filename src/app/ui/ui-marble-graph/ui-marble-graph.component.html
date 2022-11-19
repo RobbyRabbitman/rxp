@@ -22,10 +22,7 @@
       [value]="marble.time"
       [min]="min"
       [max]="max"
-      (input)="
-        marble.time = $event.value ?? max;
-        end.value = _calcEndAfterMarbleChange(graph)
-      "
+      (input)="_marbleChange(marble, $event.value ?? max)"
     ></mat-slider>
   </div>
   <div class="!absolute top-0 right-0 bottom-0 left-0 flex items-center">
