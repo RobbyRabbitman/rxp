@@ -2,17 +2,27 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
+  forwardRef,
+  inject,
   Input,
+  OnDestroy,
+  OnInit,
   Output,
   ViewEncapsulation,
 } from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormBuilder,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
-import { map, merge } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Marble } from 'src/app/model/marble';
 import { MarbleGraph } from 'src/app/model/marble-graph';
+import { filterNullish } from 'src/app/util/rxjs';
 import { UiMarbleDirective } from './ui-marble.directive';
 
 @Component({
@@ -24,23 +34,62 @@ import { UiMarbleDirective } from './ui-marble.directive';
     MatDividerModule,
     MatIconModule,
     UiMarbleDirective,
+    ReactiveFormsModule,
+  ],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => UiMarbleGraphComponent),
+      multi: true,
+    },
   ],
   templateUrl: './ui-marble-graph.component.html',
   styleUrls: ['./ui-marble-graph.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class UiMarbleGraphComponent {
+export class UiMarbleGraphComponent
+  implements OnInit, OnDestroy, ControlValueAccessor
+{
+  private destroy$ = new Subject<void>();
+  private fb = inject(FormBuilder);
+
+  public form = this.fb.group({
+    end: null as number | null,
+    marbles: this.fb.nonNullable.array<Marble<unknown>>([]),
+  });
+
   @Input()
-  public graph?: MarbleGraph<unknown> = {
-    end: 75,
-    marbles: [
-      { time: 0, value: 1, id: 1 },
-      { time: 5, value: 2, id: 2 },
-      { time: 60, value: 3, id: 3 },
-      { time: 70, value: 4, id: 4 },
-    ],
-  };
+  public set value(value: MarbleGraph<unknown> | undefined) {
+    if (value != null) {
+      this.form.controls.end.setValue(value.end ?? null, {
+        emitEvent: false,
+      });
+      this.form.setControl(
+        'marbles',
+        this.fb.nonNullable.array(value.marbles),
+        { emitEvent: false }
+      );
+
+      // hm setting controls overrides valuechanges or smth.. -> not in oninit
+      this.form.controls.marbles.valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (marbles) => {
+            this.form.patchValue(
+              {
+                end: Math.max(
+                  marbles.sort((a, b) => b.time - a.time).at(0)?.time ??
+                    this.max,
+                  this.form.controls.end.value ?? this.max
+                ),
+              },
+              { emitEvent: false }
+            );
+          },
+        });
+    }
+  }
 
   @Input()
   public min = 0;
@@ -48,49 +97,51 @@ export class UiMarbleGraphComponent {
   @Input()
   public max = 100;
 
-  @Output('endChange')
-  public readonly endChange = new EventEmitter<{
-    source: MarbleGraph<unknown>;
-    value: number;
-  }>();
-
-  @Output('marbleChange')
-  public readonly marbleChange = new EventEmitter<{
-    source: MarbleGraph<unknown>;
-    value: Marble<unknown>;
-  }>();
+  @Input()
+  public disabled = false;
 
   @Output('value')
-  public readonly valueChange = merge(this.endChange, this.marbleChange).pipe(
-    map((event) => event.source)
-  );
+  public readonly valueChange = this.form.valueChanges;
 
-  public _endChange(event: number) {
-    if (this.graph != null) {
-      this.graph = {
-        ...this.graph,
-        end: event,
-        marbles: this.graph.marbles.map((marble) => ({
-          ...marble,
-          time: Math.min(event, marble.time),
-        })),
-      };
-      this.endChange.next({ source: this.graph, value: event });
-    }
+  public ngOnInit(): void {
+    this.form.controls.end.valueChanges
+      .pipe(filterNullish, takeUntil(this.destroy$))
+      .subscribe({
+        next: (end) =>
+          this.form.patchValue(
+            {
+              marbles: this.form.value.marbles?.map((marble) => ({
+                ...marble,
+                time: Math.min(end, marble.time),
+              })),
+            },
+            { emitEvent: false }
+          ),
+      });
+
+    this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (value) => this.onChangeFn?.(value),
+    });
   }
 
-  public _marbleChange(marble: Marble<unknown>, event: number) {
-    if (this.graph) {
-      marble.time = event;
+  public ngOnDestroy(): void {
+    this.destroy$.complete();
+  }
 
-      const end = Math.max(
-        this.graph.marbles.sort((a, b) => b.time - a.time).at(0)?.time ??
-          this.max,
-        this.graph.end ?? this.max
-      );
-      this.graph.end = end;
+  // Control Value Accessor
+  private onChangeFn: any;
+  private onTouchedFn: any;
 
-      this.marbleChange.next({ source: this.graph, value: marble });
-    }
+  writeValue(obj: any): void {
+    this.value = obj;
+  }
+  registerOnChange(fn: any): void {
+    this.onChangeFn = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouchedFn = fn;
+  }
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 }

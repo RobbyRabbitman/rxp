@@ -44,4 +44,8 @@ app-ui-marble-graph {
     transform: scale(2);
     color: mat.get-color-from-palette($foreground-palette, text) !important;
   }
+
+  .mat-slider-disabled .mat-slider-thumb {
+    transform: scale(0.7);
+  }
 }

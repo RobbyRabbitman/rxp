@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UiMarbleGraphComponent } from './ui/ui-marble-graph/ui-marble-graph.component';
+import { UiOperatorShowcaseComponent } from './ui/ui-operator-showcase/ui-operator-showcase.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -12,7 +12,7 @@ import { UiMarbleGraphComponent } from './ui/ui-marble-graph/ui-marble-graph.com
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    UiMarbleGraphComponent,
+    UiOperatorShowcaseComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],

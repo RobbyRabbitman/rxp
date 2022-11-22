@@ -1,0 +1,9 @@
+<app-ui-marble-graph
+  *ngFor="let control of form.controls.in.controls"
+  [formControl]="control"
+></app-ui-marble-graph>
+<app-ui-marble-graph
+  *ngIf="reduced$ | async as reduced"
+  [value]="reduced"
+  [disabled]="true"
+></app-ui-marble-graph>
