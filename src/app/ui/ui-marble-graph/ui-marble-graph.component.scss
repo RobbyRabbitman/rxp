@@ -2,7 +2,7 @@
 @import "styles";
 
 app-ui-marble-graph {
-  @apply block h-16 px-6;
+  @apply block h-16;
 
   .marble {
     .mat-slider-thumb {

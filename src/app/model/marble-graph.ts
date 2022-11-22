@@ -39,15 +39,17 @@ export const fromMarbleGraphs = <T extends readonly unknown[]>(
   scheduler: VirtualTimeScheduler
 ) => graphs.map((graph) => fromMarbleGraph(graph, scheduler));
 
+export type ReduceGraphsOperator<I extends readonly unknown[], O> = (
+  marbles$: [
+    ...{
+      [K in keyof I]: Observable<Marble<I[K]>>;
+    }
+  ]
+) => Observable<Omit<Marble<O>, 'time'>>;
+
 export const reduceGraphs = <I extends readonly unknown[], O>(
   graphs: [...MarbleGraphInputTuple<I>],
-  operator: (
-    marbles$: [
-      ...{
-        [K in keyof I]: Observable<Marble<I[K]>>;
-      }
-    ]
-  ) => Observable<Omit<Marble<O>, 'time'>>,
+  operator: ReduceGraphsOperator<I, O>,
   scheduler = new VirtualTimeScheduler()
 ) =>
   new Observable<Marble<O> & { scheduler: VirtualTimeScheduler }>(

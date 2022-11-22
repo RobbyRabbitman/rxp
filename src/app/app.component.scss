@@ -1,6 +1,3 @@
 :host {
-  position: relative;
-  mat-slider {
-    position: absolute;
-  }
+  @apply flex flex-col gap-4 p-8;
 }

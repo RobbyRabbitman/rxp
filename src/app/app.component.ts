@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { combineLatest, map } from 'rxjs';
+import { ShowCase } from './model/show-case';
 
 @Component({
   selector: 'app-root',
@@ -7,24 +8,31 @@ import { combineLatest, map } from 'rxjs';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  x = [
-    {
-      end: 30,
-      marbles: [
-        { time: 0, value: '1' },
-        { time: 10, value: '2' },
-        { time: 15, value: '3' },
-      ],
-    },
-    {
-      end: 15,
-      marbles: [{ time: 5, value: '2' }],
-    },
-  ];
-  o = (marbles$: any) =>
-    combineLatest(marbles$).pipe(
-      map((x: any) => ({
-        value: x.reduce((sum: any, marble: any) => sum + marble.value, ''),
-      }))
-    );
+  showCase: ShowCase<[string, string], string> = {
+    label: 'CombineLatest',
+    operatorText: `combineLatest([x, y]).pipe(map(([x, y]) => x + y))`,
+    graphs: [
+      {
+        end: 100,
+        marbles: [
+          { time: 0, value: 'a' },
+          { time: 50, value: 'b' },
+          { time: 15, value: 'c' },
+        ],
+      },
+      {
+        end: 90,
+        marbles: [
+          { time: 5, value: '1' },
+          { time: 75, value: '2' },
+        ],
+      },
+    ],
+    operator: (marbles$) =>
+      combineLatest(marbles$).pipe(
+        map((marbles) => ({
+          value: marbles.reduce((sum, marble) => sum + marble.value, ''),
+        }))
+      ),
+  };
 }

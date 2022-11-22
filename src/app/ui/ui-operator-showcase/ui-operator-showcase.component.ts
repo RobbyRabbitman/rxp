@@ -6,16 +6,9 @@ import {
   Input,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import {
-  BehaviorSubject,
-  combineLatest,
-  Observable,
-  shareReplay,
-  startWith,
-  switchMap,
-} from 'rxjs';
+import { Observable, shareReplay, startWith, switchMap } from 'rxjs';
 import { MarbleGraph, reduceGraphs } from 'src/app/model/marble-graph';
-import { filterNullish } from 'src/app/util/rxjs';
+import { ShowCase } from 'src/app/model/show-case';
 import { UiMarbleGraphComponent } from '../ui-marble-graph/ui-marble-graph.component';
 
 @Component({
@@ -28,30 +21,25 @@ import { UiMarbleGraphComponent } from '../ui-marble-graph/ui-marble-graph.compo
 })
 export class UiOperatorShowcaseComponent {
   private fb = inject(FormBuilder).nonNullable;
-  private _operator$ = new BehaviorSubject<any>(undefined);
+
+  public _reduced$?: Observable<any>;
+  public _showCase?: ShowCase<unknown[], unknown>;
 
   public form = this.fb.group({
     in: this.fb.array<MarbleGraph<unknown>>([]),
   });
 
-  public reduced$?: Observable<any>;
-
   @Input()
-  public set value(graphs: MarbleGraph<unknown>[]) {
-    if (graphs != null) {
-      this.form.setControl('in', this.fb.array(graphs));
-      this.reduced$ = combineLatest([
-        this.form.valueChanges.pipe(startWith(this.form.value)),
-        this._operator$.pipe(filterNullish),
-      ]).pipe(
-        switchMap(([form, operator]) => reduceGraphs(form.in as any, operator)),
-        shareReplay(1)
-      );
+  public set value(showCase: ShowCase<unknown[], unknown>) {
+    this._showCase = showCase;
+    if (showCase != null) {
+      this.form.setControl('in', this.fb.array(showCase.graphs) as any);
+      this._reduced$ = this.form.valueChanges
+        .pipe(startWith(this.form.value))
+        .pipe(
+          switchMap((form) => reduceGraphs(form.in as any, showCase.operator)),
+          shareReplay(1)
+        );
     }
-  }
-
-  @Input()
-  public set operator(operator: any) {
-    this._operator$.next(operator);
   }
 }
