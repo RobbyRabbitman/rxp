@@ -131,7 +131,7 @@ export class UiMarbleGraphComponent
 
   public _onInputChange(control: FormControl, event: MatSliderChange) {
     control.setValue({
-      value: control.value.value,
+      ...control.value,
       time: event.value,
     });
   }
