@@ -1,9 +1,9 @@
-import { catchError, of } from 'rxjs';
+import { catchError, EMPTY } from 'rxjs';
 import { ShowCase } from './show-case';
 
 export const CATCH_ERROR: ShowCase<[number], number> = {
   label: 'catchError',
-  operatorText: 'x$.pipe(catchError(() => of(-1)))',
+  operatorText: 'x$.pipe(catchError(() => EMPTY))',
   graphs: [
     {
       end: 100,
@@ -15,7 +15,7 @@ export const CATCH_ERROR: ShowCase<[number], number> = {
       ],
     },
   ],
-  operator: (graphs$) => graphs$[0].pipe(catchError(() => of(-1))),
+  operator: (graphs$) => graphs$[0].pipe(catchError(() => EMPTY)),
 };
 
 export const SHOW_CASES_ERROR_HANDLING = {
