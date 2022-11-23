@@ -14,21 +14,16 @@
   </div>
   <div
     class="!absolute top-0 right-8 bottom-0 left-8 flex items-center"
-    *ngFor="let marbleControl of form.controls.marbles.controls"
+    *ngFor="let control of form.controls.marbles.controls"
   >
     <mat-slider
       class="marble w-full hide-slider-track"
-      [appUiMarble]="marbleControl.value"
-      [value]="marbleControl.value.time"
+      [appUiMarble]="control.value"
+      [value]="control.value.time"
       [min]="min"
       [max]="max"
       [disabled]="disabled"
-      (input)="
-        marbleControl.setValue({
-          value: marbleControl.value.value,
-          time: $any($event.value)
-        })
-      "
+      (input)="_onInputChange(control, $event)"
     ></mat-slider>
   </div>
   <div class="!absolute top-0 right-0 bottom-0 left-0 flex items-center">

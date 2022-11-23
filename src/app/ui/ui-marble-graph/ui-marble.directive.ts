@@ -1,5 +1,5 @@
 import { Directive, ElementRef, inject, Input } from '@angular/core';
-import { Marble } from 'src/app/model/marble';
+import { isMarbleWithValue, Marble } from 'src/app/model/marble';
 
 @Directive({
   selector: '[appUiMarble]',
@@ -11,6 +11,9 @@ export class UiMarbleDirective {
   @Input()
   public set appUiMarble(marble: Marble<unknown>) {
     const thumb = this.element.nativeElement.querySelector('.mat-slider-thumb');
-    if (thumb != null) thumb.innerHTML = String(marble.value);
+    if (thumb != null)
+      thumb.innerHTML = String(
+        isMarbleWithValue(marble) ? marble.value : marble.error
+      );
   }
 }

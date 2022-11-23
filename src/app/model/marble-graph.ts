@@ -6,7 +6,7 @@ import {
   timer,
   VirtualTimeScheduler,
 } from 'rxjs';
-import { Marble } from './marble';
+import { isMarbleWithValue, Marble, MarbleWithValue } from './marble';
 
 export interface MarbleGraph<T> {
   end?: number;
@@ -21,9 +21,15 @@ export const fromMarbleGraph = <T>(
   graph: MarbleGraph<T>,
   scheduler: VirtualTimeScheduler
 ) =>
-  new Observable<Marble<T>>((observer) =>
+  new Observable<MarbleWithValue<T>>((observer) =>
     graph.marbles.forEach((marble) =>
-      scheduler.schedule(() => observer.next(marble), marble.time)
+      scheduler.schedule(
+        () =>
+          isMarbleWithValue(marble)
+            ? observer.next(marble)
+            : observer.error(marble.error),
+        marble.time
+      )
     )
   ).pipe(
     takeUntil(
@@ -40,24 +46,28 @@ export const fromMarbleGraphs = <T extends readonly unknown[]>(
 ) => graphs.map((graph) => fromMarbleGraph(graph, scheduler));
 
 export type ReduceGraphsOperator<I extends readonly unknown[], O> = (
-  marbles$: [
+  graphs$: [
     ...{
-      [K in keyof I]: Observable<Marble<I[K]>>;
+      [K in keyof I]: Observable<I[K]>;
     }
-  ]
-) => Observable<Omit<Marble<O>, 'time'>>;
+  ],
+  scheduler: VirtualTimeScheduler
+) => Observable<O>;
 
 export const reduceGraphs = <I extends readonly unknown[], O>(
   graphs: [...MarbleGraphInputTuple<I>],
   operator: ReduceGraphsOperator<I, O>,
-  scheduler = new VirtualTimeScheduler()
+  scheduler = new VirtualTimeScheduler(undefined, 100)
 ) =>
-  new Observable<Marble<O> & { scheduler: VirtualTimeScheduler }>(
+  new Observable<MarbleWithValue<O> & { scheduler: VirtualTimeScheduler }>(
     (observer) => {
-      operator(fromMarbleGraphs(graphs, scheduler) as any) // hm
-        .pipe(
-          map((marble) => ({ ...marble, time: scheduler.now(), scheduler }))
-        )
+      operator(
+        fromMarbleGraphs(graphs, scheduler).map((graph) =>
+          graph.pipe(map((marble) => marble.value))
+        ) as any, // hm
+        scheduler
+      )
+        .pipe(map((value) => ({ value, time: scheduler.now(), scheduler })))
         .subscribe(observer);
 
       scheduler.flush();

@@ -13,12 +13,13 @@ import {
 import {
   ControlValueAccessor,
   FormBuilder,
+  FormControl,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSliderModule } from '@angular/material/slider';
+import { MatSliderChange, MatSliderModule } from '@angular/material/slider';
 import { Subject, takeUntil } from 'rxjs';
 import { Marble } from 'src/app/model/marble';
 import { MarbleGraph } from 'src/app/model/marble-graph';
@@ -126,6 +127,13 @@ export class UiMarbleGraphComponent
 
   public ngOnDestroy(): void {
     this.destroy$.complete();
+  }
+
+  public _onInputChange(control: FormControl, event: MatSliderChange) {
+    control.setValue({
+      value: control.value.value,
+      time: event.value,
+    });
   }
 
   // Control Value Accessor

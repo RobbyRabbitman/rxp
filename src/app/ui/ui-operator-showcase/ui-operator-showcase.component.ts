@@ -8,7 +8,7 @@ import {
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Observable, shareReplay, startWith, switchMap } from 'rxjs';
 import { MarbleGraph, reduceGraphs } from 'src/app/model/marble-graph';
-import { ShowCase } from 'src/app/model/show-case';
+import { ShowCase } from 'src/app/model/show-case/show-case';
 import { UiMarbleGraphComponent } from '../ui-marble-graph/ui-marble-graph.component';
 
 @Component({
