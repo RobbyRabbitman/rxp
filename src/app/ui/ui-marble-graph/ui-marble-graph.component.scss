@@ -6,10 +6,15 @@ app-ui-marble-graph {
 
   .marble {
     .mat-slider-thumb {
-      @apply flex items-center justify-center h-14 w-14 -right-7 -bottom-7 text-2xl z-20 #{!important};
+      @apply flex items-center border-none justify-center h-14 w-14 -right-7 -bottom-7 text-2xl z-20 #{!important};
       background-color: mat.get-color-from-palette($primary) !important;
       color: mat.get-color-from-palette($primary, default-contrast) !important;
-      border: none;
+    }
+
+    .marble-error {
+      @apply rounded-none #{!important};
+      background-color: mat.get-color-from-palette($warn) !important;
+      color: mat.get-color-from-palette($warn, default-contrast) !important;
     }
   }
 
