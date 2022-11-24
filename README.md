@@ -1,5 +1,5 @@
-# Rxp
+# Rx Playground
 
-Slide some marbles at the [Rx Playground][rxp] :large_blue_circle: :large_blue_circle:
+Slide some :large_red_circle: :large_blue_circle: :large_green_circle: at the [Rx Playground][rxp]
 
 [rxp]: https://robbyrabbitman.github.io/rxp/
