@@ -3,9 +3,9 @@
     <mat-icon>menu</mat-icon>
   </button>
   <button mat-button routerLink="">RxPlay</button>
-  <span class="ml-auto">
-    <ng-content select="[slot=header]"></ng-content>
-  </span>
+  <a mat-button class="ml-auto" href="https://rxjs.dev" target="_blank">
+    RxJS v7
+  </a>
 </mat-toolbar>
 <mat-sidenav-container class="flex-1">
   <mat-sidenav
@@ -27,6 +27,7 @@
         *matTreeNodeDef="let node; when: hasChild"
         matTreeNodeToggle
         [style.paddingLeft.rem]="3 * node.level + 1"
+        [style.paddingRight.rem]="1"
       >
         {{ node.label }}
         <mat-icon class="mat-icon-rtl-mirror ml-auto">
