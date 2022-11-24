@@ -19,7 +19,7 @@ export const SHOW_CASES = {
   conditional: SHOW_CASES_CONDITIONAL,
   creation: SHOW_CASES_CREATION,
   errorHandling: SHOW_CASES_ERROR_HANDLING,
-  filter: SHOW_CASES_FILTERING,
+  filtering: SHOW_CASES_FILTERING,
   transformation: SHOW_CASES_TRANSFORMATION,
   utility: SHOW_CASES_UTILITY,
 };

@@ -1,7 +1,3 @@
-<section *ngFor="let category_showCases of showCases | keyvalue">
-  <h2>{{ category_showCases.key }}</h2>
-  <app-ui-operator-showcase
-    *ngFor="let operator_showCase of category_showCases.value | keyvalue"
-    [value]="$any(operator_showCase.value)"
-  ></app-ui-operator-showcase>
-</section>
+<app-ui-shell>
+  <router-outlet slot="content"> </router-outlet>
+</app-ui-shell>

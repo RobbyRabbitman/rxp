@@ -1,0 +1,25 @@
+@use "@angular/material" as mat;
+@import "styles";
+
+:host {
+  @apply absolute top-0 right-0 bottom-0 left-0 flex flex-col;
+
+  mat-tree-node {
+    &.active {
+      background-color: mat.get-color-from-palette($primary);
+      color: mat.get-color-from-palette($primary, default-contrast);
+      &:hover {
+        background-color: mat.get-color-from-palette($primary, 700);
+        color: mat.get-color-from-palette($primary, 700-contrast);
+      }
+    }
+    &:hover:not(.active) {
+      background-color: mat.get-color-from-palette(
+        $foreground-palette,
+        divider
+      );
+      color: mat.get-color-from-palette($foreground-palette, divider-contrast);
+    }
+    @apply cursor-pointer;
+  }
+}
