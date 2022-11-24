@@ -1,4 +1,4 @@
-import { map } from 'rxjs';
+import { map, mapTo } from 'rxjs';
 import { ShowCase } from './show-case';
 
 export const MAP: ShowCase<[number], number> = {
@@ -18,8 +18,8 @@ export const MAP: ShowCase<[number], number> = {
 };
 
 export const MAP_TO: ShowCase<[number], number> = {
-  label: 'map',
-  operatorText: 'x$.pipe(map(x => x + 1))',
+  label: 'mapTo',
+  operatorText: 'x$.pipe(mapTo(42))',
   graphs: [
     {
       end: 100,
@@ -30,7 +30,7 @@ export const MAP_TO: ShowCase<[number], number> = {
       ],
     },
   ],
-  operator: (graphs$) => graphs$[0].pipe(map((x) => x + 1)),
+  operator: (graphs$) => graphs$[0].pipe(mapTo(42)),
 };
 
 export const SHOW_CASES_TRANSFORMATION = {
