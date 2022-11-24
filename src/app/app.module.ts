@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UiOperatorShowcaseComponent } from './components/dumb/ui-operator-showcase/ui-operator-showcase.component';
-import { UiShellComponent } from './components/dumb/ui-shell/ui-shell.component';
+import { ShellComponent } from './components/smart/shell/shell.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -14,7 +14,7 @@ import { UiShellComponent } from './components/dumb/ui-shell/ui-shell.component'
     AppRoutingModule,
     BrowserAnimationsModule,
     UiOperatorShowcaseComponent,
-    UiShellComponent,
+    ShellComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],

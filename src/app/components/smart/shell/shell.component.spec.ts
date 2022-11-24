@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UiShellComponent } from './ui-shell.component';
+import { ShellComponent } from './shell.component';
 
-describe('UiShellComponent', () => {
-  let component: UiShellComponent;
-  let fixture: ComponentFixture<UiShellComponent>;
+describe('ShellComponent', () => {
+  let component: ShellComponent;
+  let fixture: ComponentFixture<ShellComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ UiShellComponent ]
+      imports: [ ShellComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UiShellComponent);
+    fixture = TestBed.createComponent(ShellComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -39,7 +39,7 @@ interface NavItemNode extends Omit<NavItem, 'children'> {
 }
 
 @Component({
-  selector: 'app-ui-shell',
+  selector: 'app-shell',
   standalone: true,
   imports: [
     CommonModule,
@@ -52,8 +52,8 @@ interface NavItemNode extends Omit<NavItem, 'children'> {
     MatTreeModule,
     LayoutModule,
   ],
-  templateUrl: './ui-shell.component.html',
-  styleUrls: ['./ui-shell.component.scss'],
+  templateUrl: './shell.component.html',
+  styleUrls: ['./shell.component.scss'],
   animations: [
     trigger('fade', [
       state(
@@ -72,7 +72,7 @@ interface NavItemNode extends Omit<NavItem, 'children'> {
     ]),
   ],
 })
-export class UiShellComponent implements OnInit {
+export class ShellComponent implements OnInit {
   public route$ = inject(Router).events.pipe(
     filter((event) => event instanceof NavigationEnd) as any,
     map<NavigationEnd, string>((route) => route.urlAfterRedirects),
