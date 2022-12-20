@@ -2,7 +2,12 @@
   *ngFor="let control of form.controls.in.controls"
   [formControl]="control"
 ></app-ui-marble-graph>
-<pre class="text-2xl tracking-wider">{{ _showCase?.operatorText }}</pre>
+<pre
+  *ngIf="_showCase?.operatorText != null"
+  class="text-2xl tracking-wider whitespace-pre-wrap"
+>
+  <code [highlight]="$any(_showCase?.operatorText)"></code>
+</pre>
 <app-ui-marble-graph
   *ngIf="_reduced$ | async as reduced"
   [value]="reduced"

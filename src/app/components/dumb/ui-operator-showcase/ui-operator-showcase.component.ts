@@ -6,6 +6,7 @@ import {
   Input,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { HighlightModule } from 'ngx-highlightjs';
 import { Observable, shareReplay, startWith, switchMap } from 'rxjs';
 import { MarbleGraph, reduceGraphs } from 'src/app/model/marble-graph';
 import { ShowCase } from 'src/app/model/show-case/show-case';
@@ -14,7 +15,12 @@ import { UiMarbleGraphComponent } from '../ui-marble-graph/ui-marble-graph.compo
 @Component({
   selector: 'app-ui-operator-showcase',
   standalone: true,
-  imports: [CommonModule, UiMarbleGraphComponent, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    UiMarbleGraphComponent,
+    ReactiveFormsModule,
+    HighlightModule,
+  ],
   templateUrl: './ui-operator-showcase.component.html',
   styleUrls: ['./ui-operator-showcase.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
