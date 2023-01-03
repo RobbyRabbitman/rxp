@@ -1,3 +1,4 @@
-<app-ui-operator-showcase
-  [value]="showCase$ | async"
-></app-ui-operator-showcase>
+<ng-container *ngFor="let showCase of showCases$ | async; let last = last">
+  <app-ui-operator-showcase [value]="showCase"></app-ui-operator-showcase>
+  <mat-divider *ngIf="!last"></mat-divider>
+</ng-container>

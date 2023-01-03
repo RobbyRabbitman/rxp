@@ -37,7 +37,25 @@ export const FIRST: ShowCase<[number], number> = {
   operator: (graphs$) => graphs$[0].pipe(first()),
 };
 
+export const FIRST_WITH_CONDITION: ShowCase<[number], number> = {
+  label: 'first with condition',
+  operatorText: 'x$.pipe(first(x => x % 2 === 0))',
+  graphs: [
+    {
+      end: 100,
+      marbles: [
+        { time: 10, value: 1 },
+        { time: 20, value: 2 },
+        { time: 55, value: 3 },
+        { time: 65, value: 4 },
+        { time: 75, value: 5 },
+      ],
+    },
+  ],
+  operator: (graphs$) => graphs$[0].pipe(first((x) => x % 2 === 0)),
+};
+
 export const SHOW_CASES_FILTERING = {
   filter: FILTER,
-  first: FIRST,
+  first: [FIRST, FIRST_WITH_CONDITION],
 };
