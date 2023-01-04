@@ -2,7 +2,7 @@ import { every } from 'rxjs';
 import { ShowCase } from './show-case';
 
 export const EVERY: ShowCase<[number], boolean> = {
-  label: 'filter',
+  label: 'every',
   operatorText: 'x$.pipe(every(x => x % 2 === 0))',
   graphs: [
     {

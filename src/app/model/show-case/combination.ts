@@ -2,7 +2,7 @@ import { combineLatest, map } from 'rxjs';
 import { ShowCase } from './show-case';
 
 export const COMBINE_LATEST: ShowCase<[string, string], string> = {
-  label: 'CombineLatest',
+  label: 'combineLatest',
   operatorText: `combineLatest([x$, y$]).pipe(map(([x, y]) => x + y))`,
   graphs: [
     {
