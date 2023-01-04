@@ -10,7 +10,7 @@ export const CATCH_ERROR: ShowCase<[number], number> = {
       marbles: [
         { time: 10, value: 1 },
         { time: 20, value: 2 },
-        { time: 55, error: new Error('whoopsi') },
+        { time: 55, error: new Error('!') },
         { time: 70, value: 3 },
       ],
     },

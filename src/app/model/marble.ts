@@ -6,7 +6,7 @@ export interface MarbleWithValue<T> extends AbstractMarble {
 }
 
 export interface MarbleWithError extends AbstractMarble {
-  error: unknown;
+  error: Error;
 }
 
 export type Marble<T> = MarbleWithValue<T> | MarbleWithError;

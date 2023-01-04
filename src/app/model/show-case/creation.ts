@@ -10,10 +10,10 @@ export const INTERVAL: ShowCase<[], number> = {
 
 export const THROW_ERROR: ShowCase<[], number> = {
   label: 'throw error',
-  operatorText: `throwError(() => new Error('whoopsi'))`,
+  operatorText: `throwError(() => new Error('!'))`,
   graphs: [],
   operator: (_, scheduler) =>
-    throwError(() => new Error('whoopsi')).pipe(observeOn(scheduler)),
+    throwError(() => new Error('!')).pipe(observeOn(scheduler)),
 };
 
 export const SHOW_CASES_CREATION = {
