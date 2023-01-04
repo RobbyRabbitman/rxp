@@ -76,8 +76,8 @@ export const FIRST: ShowCase<[number], number> = {
   operator: (graphs$) => graphs$[0].pipe(first()),
 };
 
-export const FIRST_WITH_PREDICATE: ShowCase<[number], number> = {
-  label: 'first with predicate',
+export const FIRST_WITH_PREDICATE_THAT_SUCCEEDS: ShowCase<[number], number> = {
+  label: 'first with predicate that succeeds',
   operatorText: 'x$.pipe(first(x => x % 2 === 0))',
   graphs: [
     {
@@ -112,11 +112,11 @@ export const FIRST_WITH_PREDICATE_THAT_FAILS: ShowCase<[number], number> = {
   operator: (graphs$) => graphs$[0].pipe(first((x) => x > 5)),
 };
 
-export const FIRST_WITH_PREDICATE_AND_FALLBACK_VALUE: ShowCase<
+export const FIRST_WITH_PREDICATE_THAT_FAILS_AND_FALLBACK_VALUE: ShowCase<
   [number],
   number
 > = {
-  label: 'first with predicate and fallback value',
+  label: 'first with predicate that fails and fallback value',
   operatorText: 'x$.pipe(first(x => x > 5, 10))',
   graphs: [
     {
@@ -138,8 +138,8 @@ export const SHOW_CASES_FILTERING = {
   find: [FIND, FIND_WITH_PREDICATE_THAT_FAILS],
   first: [
     FIRST,
-    FIRST_WITH_PREDICATE,
+    FIRST_WITH_PREDICATE_THAT_SUCCEEDS,
     FIRST_WITH_PREDICATE_THAT_FAILS,
-    FIRST_WITH_PREDICATE_AND_FALLBACK_VALUE,
+    FIRST_WITH_PREDICATE_THAT_FAILS_AND_FALLBACK_VALUE,
   ],
 };
