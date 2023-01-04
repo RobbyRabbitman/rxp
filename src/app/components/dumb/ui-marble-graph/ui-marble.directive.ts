@@ -16,9 +16,7 @@ export class UiMarbleDirective {
   public set appUiMarble(marble: Marble<unknown>) {
     const thumb = this.element.nativeElement.querySelector('.mat-slider-thumb');
     if (thumb != null) {
-      thumb.innerHTML = String(
-        isMarbleWithValue(marble) ? marble.value : marble.error
-      );
+      thumb.innerHTML = String(isMarbleWithValue(marble) ? marble.value : '!');
       if (isMarbleWithError(marble)) thumb.classList.add('marble-error');
       else thumb.classList.remove('marble-error');
     }

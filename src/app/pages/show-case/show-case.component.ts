@@ -15,6 +15,10 @@ import { SHOW_CASES } from 'src/app/model/show-case/show-case';
 })
 export class ShowCaseComponent {
   public showCases$ = inject(ActivatedRoute).params.pipe(
-    map(({ category, id }) => [...(SHOW_CASES as any)?.[category]?.[id]])
+    map(({ category, id }) =>
+      (SHOW_CASES as any)?.[category]?.[id] instanceof Array
+        ? (SHOW_CASES as any)?.[category]?.[id]
+        : [(SHOW_CASES as any)?.[category]?.[id]]
+    )
   );
 }

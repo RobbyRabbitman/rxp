@@ -1,6 +1,8 @@
 import {
+  catchError,
   map,
   Observable,
+  of,
   reduce,
   takeUntil,
   timer,
@@ -67,8 +69,11 @@ export const reduceGraphs = <I extends readonly unknown[], O>(
         ) as any, // hm
         scheduler
       )
-        .pipe(map((value) => ({ value, time: scheduler.now(), scheduler })))
-        .subscribe(observer);
+        .pipe(
+          map((value) => ({ value, time: scheduler.now(), scheduler })),
+          catchError((error) => of({ error, time: scheduler.now(), scheduler }))
+        )
+        .subscribe(observer as any); // hm
 
       scheduler.flush();
       observer.complete();
