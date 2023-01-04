@@ -1,4 +1,4 @@
-import { filter, first } from 'rxjs';
+import { filter, find, first } from 'rxjs';
 import { ShowCase } from './show-case';
 
 export const FILTER: ShowCase<[number], number> = {
@@ -17,6 +17,45 @@ export const FILTER: ShowCase<[number], number> = {
     },
   ],
   operator: (graphs$) => graphs$[0].pipe(filter((x) => x % 2 === 0)),
+};
+
+export const FIND: ShowCase<[number], number | undefined> = {
+  label: 'find',
+  operatorText: 'x$.pipe(find(x => x % 2 === 0))',
+  graphs: [
+    {
+      end: 80,
+      marbles: [
+        { time: 10, value: 1 },
+        { time: 20, value: 2 },
+        { time: 55, value: 3 },
+        { time: 65, value: 4 },
+        { time: 75, value: 5 },
+      ],
+    },
+  ],
+  operator: (graphs$) => graphs$[0].pipe(find((x) => x % 2 === 0)),
+};
+
+export const FIND_WITH_PREDICATE_THAT_FAILS: ShowCase<
+  [number],
+  number | undefined
+> = {
+  label: 'find with predicate that fails',
+  operatorText: 'x$.pipe(find(x => x > 5))',
+  graphs: [
+    {
+      end: 80,
+      marbles: [
+        { time: 10, value: 1 },
+        { time: 20, value: 2 },
+        { time: 55, value: 3 },
+        { time: 65, value: 4 },
+        { time: 75, value: 5 },
+      ],
+    },
+  ],
+  operator: (graphs$) => graphs$[0].pipe(find((x) => x > 5)),
 };
 
 export const FIRST: ShowCase<[number], number> = {
@@ -96,6 +135,7 @@ export const FIRST_WITH_PREDICATE_AND_FALLBACK_VALUE: ShowCase<
 
 export const SHOW_CASES_FILTERING = {
   filter: FILTER,
+  find: [FIND, FIND_WITH_PREDICATE_THAT_FAILS],
   first: [
     FIRST,
     FIRST_WITH_PREDICATE,
