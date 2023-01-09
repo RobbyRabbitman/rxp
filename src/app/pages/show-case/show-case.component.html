@@ -2,3 +2,7 @@
   <app-ui-operator-showcase [value]="showCase"></app-ui-operator-showcase>
   <mat-divider *ngIf="!last"></mat-divider>
 </ng-container>
+<app-rxjs-src-link
+  *ngIf="path$ | async as path"
+  [path]="path"
+></app-rxjs-src-link>
