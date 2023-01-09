@@ -1,8 +1,12 @@
-<ng-container *ngFor="let showCase of showCases$ | async; let last = last">
-  <app-ui-operator-showcase [value]="showCase"></app-ui-operator-showcase>
-  <mat-divider *ngIf="!last"></mat-divider>
+<ng-container *ngIf="vm$ | async as vm">
+  <ng-container *ngFor="let showCase of vm.showCases; let last = last">
+    <app-ui-operator-showcase [value]="showCase"></app-ui-operator-showcase>
+    <mat-divider *ngIf="!last"></mat-divider>
+  </ng-container>
+  <app-rxjs-src-link
+    class="self-start"
+    [matTooltip]="vm.tooltip"
+    [path]="vm.path"
+  >
+  </app-rxjs-src-link>
 </ng-container>
-<app-rxjs-src-link
-  *ngIf="path$ | async as path"
-  [path]="path"
-></app-rxjs-src-link>

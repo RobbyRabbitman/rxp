@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs';
+import { combineLatest, map } from 'rxjs';
 import { UiOperatorShowcaseComponent } from 'src/app/components/dumb/ui-operator-showcase/ui-operator-showcase.component';
 import {
   RxjsSrcLinkComponent,
@@ -18,6 +19,7 @@ import { SHOW_CASES } from 'src/app/model/show-case/show-case';
     UiOperatorShowcaseComponent,
     MatDividerModule,
     RxjsSrcLinkComponent,
+    MatTooltipModule,
   ],
   templateUrl: './show-case.component.html',
   styleUrls: ['./show-case.component.scss'],
@@ -36,15 +38,19 @@ export class ShowCaseComponent {
     utility: 'operators',
   };
 
-  public showCases$ = inject(ActivatedRoute).params.pipe(
-    map(({ category, id }) =>
-      (SHOW_CASES as any)?.[category]?.[id] instanceof Array
-        ? (SHOW_CASES as any)?.[category]?.[id]
-        : [(SHOW_CASES as any)?.[category]?.[id]]
-    )
-  );
-
-  public path$ = inject(ActivatedRoute).params.pipe(
-    map(({ category, id }) => `${this._categoryToPath[category]}/${id}.ts`)
-  );
+  public vm$ = combineLatest({
+    showCases: inject(ActivatedRoute).params.pipe(
+      map(({ category, id }) =>
+        (SHOW_CASES as any)?.[category]?.[id] instanceof Array
+          ? (SHOW_CASES as any)?.[category]?.[id]
+          : [(SHOW_CASES as any)?.[category]?.[id]]
+      )
+    ),
+    path: inject(ActivatedRoute).params.pipe(
+      map(({ category, id }) => `${this._categoryToPath[category]}/${id}.ts`)
+    ),
+    tooltip: inject(ActivatedRoute).params.pipe(
+      map(({ id }) => `Source of '${id}'`)
+    ),
+  });
 }
