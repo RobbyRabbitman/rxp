@@ -1,5 +1,6 @@
 @use "@angular/material" as mat;
-@import "styles";
+@import "../../../../styles";
+//@import "styles"; TODO doesnt work after v14 -> v15 uff
 
 :host {
   @apply absolute top-0 right-0 bottom-0 left-0 flex flex-col;

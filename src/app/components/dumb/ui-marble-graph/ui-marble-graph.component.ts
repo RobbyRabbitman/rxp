@@ -19,7 +19,7 @@ import {
 } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSliderChange, MatSliderModule } from '@angular/material/slider';
+import { MatLegacySliderChange as MatSliderChange, MatLegacySliderModule as MatSliderModule } from '@angular/material/legacy-slider';
 import { Subject, takeUntil } from 'rxjs';
 import { Marble } from 'src/app/model/marble';
 import { MarbleGraph } from 'src/app/model/marble-graph';
