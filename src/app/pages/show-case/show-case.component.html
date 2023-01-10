@@ -1,12 +1,19 @@
 <ng-container *ngIf="vm$ | async as vm">
-  <ng-container *ngFor="let showCase of vm.showCases; let last = last">
-    <app-ui-operator-showcase [value]="showCase"></app-ui-operator-showcase>
-    <mat-divider *ngIf="!last"></mat-divider>
-  </ng-container>
-  <app-rxjs-src-link
-    class="self-start"
-    [matTooltip]="vm.tooltip"
-    [path]="vm.path"
-  >
-  </app-rxjs-src-link>
+  <h1 class="!mb-0 !text-4xl">{{ vm.operator }}</h1>
+  <section class="flex flex-col gap-8">
+    <h2 class="!mb-0">Examples</h2>
+    <app-ui-operator-showcase
+      *ngFor="let showCase of vm.showCases"
+      [value]="showCase"
+    ></app-ui-operator-showcase>
+  </section>
+  <section class="flex flex-col gap-8">
+    <h2 class="!mb-0">Additional Resources</h2>
+    <app-rxjs-src-link
+      class="self-start"
+      [matTooltip]="vm.tooltip"
+      [path]="vm.path"
+    >
+    </app-rxjs-src-link>
+  </section>
 </ng-container>

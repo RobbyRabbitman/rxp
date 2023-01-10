@@ -49,6 +49,7 @@ export class ShowCaseComponent {
     path: inject(ActivatedRoute).params.pipe(
       map(({ category, id }) => `${this._categoryToPath[category]}/${id}.ts`)
     ),
+    operator: inject(ActivatedRoute).params.pipe(map(({ id }) => id)),
     tooltip: inject(ActivatedRoute).params.pipe(
       map(({ id }) => `Source of '${id}'`)
     ),

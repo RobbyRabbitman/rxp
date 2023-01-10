@@ -6,6 +6,7 @@ import {
   Input,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 import { HighlightModule } from 'ngx-highlightjs';
 import { Observable, shareReplay, startWith, switchMap } from 'rxjs';
 import { MarbleGraph, reduceGraphs } from 'src/app/model/marble-graph';
@@ -20,6 +21,7 @@ import { UiMarbleGraphComponent } from '../ui-marble-graph/ui-marble-graph.compo
     UiMarbleGraphComponent,
     ReactiveFormsModule,
     HighlightModule,
+    MatCardModule,
   ],
   templateUrl: './ui-operator-showcase.component.html',
   styleUrls: ['./ui-operator-showcase.component.scss'],

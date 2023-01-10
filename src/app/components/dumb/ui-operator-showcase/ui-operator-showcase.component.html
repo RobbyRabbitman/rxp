@@ -1,16 +1,24 @@
-<span class="font-semibold text-2xl">{{ _showCase?.label }}</span>
-<app-ui-marble-graph
-  *ngFor="let control of form.controls.in.controls"
-  [formControl]="control"
-></app-ui-marble-graph>
-<pre
-  *ngIf="_showCase?.operatorText != null"
-  class="text-2xl tracking-wider whitespace-pre-wrap"
->
-  <code [highlight]="$any(_showCase?.operatorText)"></code>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <span>{{ _showCase?.label }}</span>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <app-ui-marble-graph
+      *ngFor="let control of form.controls.in.controls"
+      [formControl]="control"
+    ></app-ui-marble-graph>
+    <pre
+      *ngIf="_showCase?.operatorText != null"
+      class="text-2xl tracking-wider whitespace-pre-wrap"
+    >
+<code [highlight]="$any(_showCase?.operatorText)"></code>
 </pre>
-<app-ui-marble-graph
-  *ngIf="_reduced$ | async as reduced"
-  [value]="reduced"
-  [disabled]="true"
-></app-ui-marble-graph>
+    <app-ui-marble-graph
+      *ngIf="_reduced$ | async as reduced"
+      [value]="reduced"
+      [disabled]="true"
+    ></app-ui-marble-graph>
+  </mat-card-content>
+</mat-card>
