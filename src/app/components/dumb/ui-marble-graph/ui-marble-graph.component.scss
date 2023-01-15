@@ -26,7 +26,7 @@ app-ui-marble-graph {
     .mat-slider-thumb {
       @apply h-16 w-1 -bottom-8 -right-[0.125rem] rounded-none transform-none #{!important};
       background-color: mat.get-color-from-palette(
-        $foreground-palette,
+        $foreground,
         text
       ) !important;
       border: none;
@@ -40,15 +40,12 @@ app-ui-marble-graph {
   }
 
   .mat-divider {
-    background-color: mat.get-color-from-palette(
-      $foreground-palette,
-      text
-    ) !important;
+    background-color: mat.get-color-from-palette($foreground, text) !important;
   }
 
   .mat-icon {
     transform: scale(2);
-    color: mat.get-color-from-palette($foreground-palette, text) !important;
+    color: mat.get-color-from-palette($foreground, text) !important;
   }
 
   .mat-slider-disabled .mat-slider-thumb {

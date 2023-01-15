@@ -7,7 +7,7 @@ import {
   Input,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 
 export const RXJS_SRC_LINK_BASE = new InjectionToken<string | undefined>('');
 

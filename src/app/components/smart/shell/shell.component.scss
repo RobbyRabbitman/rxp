@@ -15,11 +15,8 @@
       }
     }
     &:hover:not(.active) {
-      background-color: mat.get-color-from-palette(
-        $foreground-palette,
-        divider
-      );
-      color: mat.get-color-from-palette($foreground-palette, divider-contrast);
+      background-color: mat.get-color-from-palette($foreground, divider);
+      color: mat.get-color-from-palette($foreground, divider-contrast);
     }
     @apply cursor-pointer;
   }
