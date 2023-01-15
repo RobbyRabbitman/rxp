@@ -11,9 +11,15 @@
     <h2 class="!mb-0 !text-xl">Additional Resources</h2>
     <app-rxjs-src-link
       class="self-start"
-      [matTooltip]="vm.tooltip"
-      [path]="vm.path"
+      [matTooltip]="vm.rxjsSrcTooltip"
+      [path]="vm.rxjsSrc"
     >
     </app-rxjs-src-link>
+    <app-learn-rxjs-link
+      class="self-start"
+      [matTooltip]="vm.learnRxjsPathTooltip"
+      [path]="vm.learnRxjsPath"
+    >
+    </app-learn-rxjs-link>
   </section>
 </ng-container>

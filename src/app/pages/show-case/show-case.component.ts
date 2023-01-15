@@ -6,9 +6,13 @@ import { ActivatedRoute } from '@angular/router';
 import { combineLatest, map } from 'rxjs';
 import { UiOperatorShowcaseComponent } from 'src/app/components/dumb/ui-operator-showcase/ui-operator-showcase.component';
 import {
+  LearnRxjsLinkComponent,
+  LEARN_RXJS_LINK_BASE,
+} from 'src/app/components/smart/links/learn-rxjs.link.component';
+import {
   RxjsSrcLinkComponent,
   RXJS_SRC_LINK_BASE,
-} from 'src/app/components/smart/rxjs-src-link/rxjs-src-link.component';
+} from 'src/app/components/smart/links/rxjs-src-link.component';
 import { SHOW_CASES } from 'src/app/model/show-case/show-case';
 
 @Component({
@@ -19,16 +23,18 @@ import { SHOW_CASES } from 'src/app/model/show-case/show-case';
     UiOperatorShowcaseComponent,
     MatDividerModule,
     RxjsSrcLinkComponent,
+    LearnRxjsLinkComponent,
     MatTooltipModule,
   ],
   templateUrl: './show-case.component.html',
   styleUrls: ['./show-case.component.scss'],
   providers: [
     { provide: RXJS_SRC_LINK_BASE, useValue: 'blob/master/src/internal' },
+    { provide: LEARN_RXJS_LINK_BASE, useValue: 'learn-rxjs' },
   ],
 })
 export class ShowCaseComponent {
-  public _categoryToPath: any = {
+  public _categoryToRxjsSrcPathPrefix: any = {
     combination: 'operators',
     conditional: 'operators',
     creation: 'observable',
@@ -46,12 +52,21 @@ export class ShowCaseComponent {
           : [(SHOW_CASES as any)?.[category]?.[id]]
       )
     ),
-    path: inject(ActivatedRoute).params.pipe(
-      map(({ category, id }) => `${this._categoryToPath[category]}/${id}.ts`)
+    rxjsSrc: inject(ActivatedRoute).params.pipe(
+      map(
+        ({ category, id }) =>
+          `${this._categoryToRxjsSrcPathPrefix[category]}/${id}.ts`
+      )
     ),
-    operator: inject(ActivatedRoute).params.pipe(map(({ id }) => id)),
-    tooltip: inject(ActivatedRoute).params.pipe(
+    rxjsSrcTooltip: inject(ActivatedRoute).params.pipe(
       map(({ id }) => `Source of '${id}'`)
     ),
+    learnRxjsPath: inject(ActivatedRoute).params.pipe(
+      map(({ category, id }) => `operators/${category}/${id}`.toLowerCase())
+    ),
+    learnRxjsPathTooltip: inject(ActivatedRoute).params.pipe(
+      map(({ id }) => `Code examples of '${id}'`)
+    ),
+    operator: inject(ActivatedRoute).params.pipe(map(({ id }) => id)),
   });
 }
