@@ -26,6 +26,7 @@ import {
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, map, shareReplay } from 'rxjs';
 import { SHOW_CASES } from 'src/app/model/show-case/show-case';
+import { camelToSnake } from 'src/app/util/camel-case';
 
 interface NavItem {
   label: string;
@@ -106,7 +107,7 @@ export class ShellComponent implements OnInit {
   public ngOnInit(): void {
     this.dataSource.data = Object.entries(SHOW_CASES).map(
       ([category, showCases]) => ({
-        label: category.replace('_', ' '),
+        label: camelToSnake(category, ' '),
         path: category,
         children: Object.keys(showCases).map((showCase) => ({
           label: showCase,

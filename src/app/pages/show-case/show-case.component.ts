@@ -14,6 +14,7 @@ import {
   RXJS_SRC_LINK_BASE,
 } from 'src/app/components/smart/links/rxjs-src-link.component';
 import { SHOW_CASES } from 'src/app/model/show-case/show-case';
+import { camelToSnake } from 'src/app/util/camel-case';
 
 @Component({
   selector: 'app-show-case',
@@ -62,7 +63,9 @@ export class ShowCaseComponent {
       map(({ id }) => `Source of '${id}'`)
     ),
     learnRxjsPath: inject(ActivatedRoute).params.pipe(
-      map(({ category, id }) => `operators/${category}/${id}`.toLowerCase())
+      map(({ category, id }) =>
+        `operators/${camelToSnake(category)}/${id}`.toLowerCase()
+      )
     ),
     learnRxjsPathTooltip: inject(ActivatedRoute).params.pipe(
       map(({ id }) => `Code examples of '${id}'`)
