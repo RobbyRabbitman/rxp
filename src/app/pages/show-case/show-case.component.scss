@@ -3,7 +3,7 @@
 //@import "styles"; TODO doesnt work after v14 -> v15 uff
 
 :host {
-  @apply flex flex-col gap-16 p-8;
+  @apply flex flex-col gap-8 p-8;
   h1 {
     color: mat.get-color-from-palette($primary, 700);
   }

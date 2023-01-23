@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute } from '@angular/router';
+import { HighlightModule } from 'ngx-highlightjs';
 import { combineLatest, map } from 'rxjs';
 import { UiOperatorShowcaseComponent } from 'src/app/components/dumb/ui-operator-showcase/ui-operator-showcase.component';
 import {
@@ -25,6 +26,7 @@ import { camelToSnake } from 'src/app/util/camel-case';
     MatDividerModule,
     RxjsSrcLinkComponent,
     LearnRxjsLinkComponent,
+    HighlightModule,
     MatTooltipModule,
   ],
   templateUrl: './show-case.component.html',
@@ -71,5 +73,8 @@ export class ShowCaseComponent {
       map(({ id }) => `Code examples of '${id}'`)
     ),
     operator: inject(ActivatedRoute).params.pipe(map(({ id }) => id)),
+    importStatement: inject(ActivatedRoute).params.pipe(
+      map(({ id }) => `import { ${id} } from 'rxjs';`)
+    ),
   });
 }
