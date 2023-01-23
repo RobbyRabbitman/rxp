@@ -80,8 +80,8 @@ export class ShellComponent implements OnInit {
     shareReplay(1)
   );
 
-  public handset$ = inject(BreakpointObserver)
-    .observe([Breakpoints.Handset])
+  public medium$ = inject(BreakpointObserver)
+    .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium])
     .pipe(map((state) => state.matches));
 
   treeControl = new FlatTreeControl<NavItemNode>(
