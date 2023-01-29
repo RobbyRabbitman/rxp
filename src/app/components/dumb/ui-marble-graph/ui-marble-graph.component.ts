@@ -19,11 +19,15 @@ import {
 } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacySliderChange as MatSliderChange, MatLegacySliderModule as MatSliderModule } from '@angular/material/legacy-slider';
+import {
+  MatLegacySliderChange as MatSliderChange,
+  MatLegacySliderModule as MatSliderModule,
+} from '@angular/material/legacy-slider';
 import { Subject, takeUntil } from 'rxjs';
 import { Marble } from 'src/app/model/marble';
 import { MarbleGraph } from 'src/app/model/marble-graph';
 import { filterNullish } from 'src/app/util/rxjs';
+import { UiMarbleGraphStackDirective } from './ui-marble-graph-stack.directive';
 import { UiMarbleDirective } from './ui-marble.directive';
 
 @Component({
@@ -36,6 +40,7 @@ import { UiMarbleDirective } from './ui-marble.directive';
     MatIconModule,
     UiMarbleDirective,
     ReactiveFormsModule,
+    UiMarbleGraphStackDirective,
   ],
   providers: [
     {
@@ -60,8 +65,15 @@ export class UiMarbleGraphComponent
     marbles: this.fb.nonNullable.array<Marble<unknown>>([]),
   });
 
+  private _value?: MarbleGraph<unknown>;
+
+  public get value() {
+    return this._value;
+  }
+
   @Input()
   public set value(value: MarbleGraph<unknown> | undefined) {
+    this._value = value;
     if (value != null) {
       this.form.controls.end.setValue(value.end ?? null, {
         emitEvent: false,
