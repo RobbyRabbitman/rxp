@@ -1,5 +1,39 @@
-import { combineLatest, map } from 'rxjs';
+import { combineLatest, combineLatestAll, interval, map, take } from 'rxjs';
 import { ShowCase } from './show-case';
+
+export const COMBINE_LATEST_ALL: ShowCase<[string], string> = {
+  label: 'combineLatestAll',
+  operatorText: `x$.pipe(
+    map((x) =>
+      interval(10).pipe(
+        map((inner) => x + inner),
+        take(3)
+      )
+    ),
+    combineLatestAll(),
+    map(([a, b]) => a + b)
+  ),`,
+  graphs: [
+    {
+      end: 20,
+      marbles: [
+        { time: 5, value: 'a' },
+        { time: 15, value: 'b' },
+      ],
+    },
+  ],
+  operator: (graphs$, scheduler) =>
+    graphs$[0].pipe(
+      map((outer) =>
+        interval(10, scheduler).pipe(
+          map((inner) => outer + inner),
+          take(3)
+        )
+      ),
+      combineLatestAll(),
+      map(([a, b]) => a + b)
+    ),
+};
 
 export const COMBINE_LATEST: ShowCase<[string, string], string> = {
   label: 'combineLatest',
@@ -28,5 +62,6 @@ export const COMBINE_LATEST: ShowCase<[string, string], string> = {
 };
 
 export const SHOW_CASES_COMBINATION = {
+  combineLatestAll: COMBINE_LATEST_ALL,
   combineLatest: COMBINE_LATEST,
 };
