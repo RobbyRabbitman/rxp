@@ -2,6 +2,8 @@ import {
   combineLatest,
   combineLatestAll,
   concat,
+  concatAll,
+  from,
   interval,
   map,
   take,
@@ -100,8 +102,41 @@ export const CONCAT: ShowCase<[number, string, string], string | number> = {
   operator: (graphs$) => concat(...graphs$),
 };
 
+export const CONCAT_ALL: ShowCase<[number, string, string], string | number> = {
+  label: 'concatAll',
+  operatorText: `from(x$, y$, z$).pipe(concatAll())`,
+  graphs: [
+    {
+      end: 30,
+      marbles: [
+        { time: 10, value: 1 },
+        { time: 20, value: 2 },
+        { time: 25, value: 3 },
+      ],
+    },
+    {
+      end: 25,
+      marbles: [
+        { time: 0, value: 'a' },
+        { time: 5, value: 'b' },
+        { time: 10, value: 'c' },
+      ],
+    },
+    {
+      end: 40,
+      marbles: [
+        { time: 0, value: 'x' },
+        { time: 15, value: 'y' },
+        { time: 25, value: 'z' },
+      ],
+    },
+  ],
+  operator: (graphs$) => from(graphs$).pipe(concatAll()),
+};
+
 export const SHOW_CASES_COMBINATION = {
   combineLatestAll: COMBINE_LATEST_ALL,
   combineLatest: COMBINE_LATEST,
   concat: CONCAT,
+  concatAll: CONCAT_ALL,
 };
