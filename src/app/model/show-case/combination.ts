@@ -4,43 +4,37 @@ import {
   concat,
   concatAll,
   from,
-  interval,
   map,
-  take,
 } from 'rxjs';
 import { ShowCase } from './show-case';
 
-export const COMBINE_LATEST_ALL: ShowCase<[string], string> = {
+export const COMBINE_LATEST_ALL: ShowCase<[string, string], string> = {
   label: 'combineLatestAll',
-  operatorText: `x$.pipe(
-    map((x) =>
-      interval(10).pipe(
-        map((inner) => x + inner),
-        take(3)
-      )
-    ),
+  operatorText: ` from([x$, y$]).pipe(
     combineLatestAll(),
-    map(([a, b]) => a + b)
-  ),`,
+    map(([x, y]) => x + y)
+  )`,
   graphs: [
     {
-      end: 20,
+      end: 100,
       marbles: [
-        { time: 5, value: 'a' },
-        { time: 15, value: 'b' },
+        { time: 0, value: 'a' },
+        { time: 50, value: 'b' },
+        { time: 15, value: 'c' },
+      ],
+    },
+    {
+      end: 90,
+      marbles: [
+        { time: 5, value: '1' },
+        { time: 75, value: '2' },
       ],
     },
   ],
-  operator: (graphs$, scheduler) =>
-    graphs$[0].pipe(
-      map((outer) =>
-        interval(10, scheduler).pipe(
-          map((inner) => outer + inner),
-          take(3)
-        )
-      ),
+  operator: (graphs$) =>
+    from(graphs$).pipe(
       combineLatestAll(),
-      map(([a, b]) => a + b)
+      map(([x, y]) => x + y)
     ),
 };
 
@@ -64,10 +58,7 @@ export const COMBINE_LATEST: ShowCase<[string, string], string> = {
       ],
     },
   ],
-  operator: (graphs$) =>
-    combineLatest(graphs$).pipe(
-      map((values) => values.reduce((sum, x) => sum + x, ''))
-    ),
+  operator: (graphs$) => combineLatest(graphs$).pipe(map(([x, y]) => x + y)),
 };
 
 export const CONCAT: ShowCase<[number, string, string], string | number> = {
@@ -104,7 +95,7 @@ export const CONCAT: ShowCase<[number, string, string], string | number> = {
 
 export const CONCAT_ALL: ShowCase<[number, string, string], string | number> = {
   label: 'concatAll',
-  operatorText: `from(x$, y$, z$).pipe(concatAll())`,
+  operatorText: `from([x$, y$, z$]).pipe(concatAll())`,
   graphs: [
     {
       end: 30,
@@ -135,8 +126,8 @@ export const CONCAT_ALL: ShowCase<[number, string, string], string | number> = {
 };
 
 export const SHOW_CASES_COMBINATION = {
-  combineLatestAll: COMBINE_LATEST_ALL,
   combineLatest: COMBINE_LATEST,
+  combineLatestAll: COMBINE_LATEST_ALL,
   concat: CONCAT,
   concatAll: CONCAT_ALL,
 };
