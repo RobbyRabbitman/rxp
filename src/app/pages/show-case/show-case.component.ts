@@ -32,7 +32,7 @@ import { camelToSnake } from 'src/app/util/camel-case';
   templateUrl: './show-case.component.html',
   styleUrls: ['./show-case.component.scss'],
   providers: [
-    { provide: RXJS_SRC_LINK_BASE, useValue: 'blob/master/src/internal' },
+    { provide: RXJS_SRC_LINK_BASE, useValue: 'blob/7.x/src/internal' },
     { provide: LEARN_RXJS_LINK_BASE, useValue: 'learn-rxjs' },
   ],
 })
